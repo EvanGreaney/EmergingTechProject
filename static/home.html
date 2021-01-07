@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Flask app</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="cover">
+            <h1>Calculate Power of Wind Turbine</h1>
+            <form class="flex-form">
+                <input type="number" name="speed" placeholder="Enter the Speed" id="speed" required />
+                <input type="button" value="Calculate" onclick="calculateTurbinePower();">
+            </form>
+            </br>
+            <form class="flex-form">
+                <input type="number" name="power" placeholder="Power" id="power" readonly />
+            </form>
+
+        </div>
+
+    </div>
+</body>
+
+<script>
+
+    function power(otherPrams) {
+        value = fetch('/power', otherPrams)
+            .then(data => { return data.json() })
+            .then(res => { return res })
+            .catch(error => console.log(error))
+        return value
+    }
+
+    // Adapted from stack overflow posts.
+    async function calculateTurbinePower() {
+        var speed = document.getElementById("speed").value
+        document.getElementById('power').value = "Please wait...";
+
+        const otherPrams = {
+            body: JSON.stringify({ speed: speed }),
+            method: "POST"
+        }
+        document.getElementById('power').value = await power(otherPrams);
+        console.log("Power Level of Wind Turbine " + await power(otherPrams))
+    }
+
+</script>
+
+</html>
