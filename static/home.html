@@ -27,26 +27,38 @@
 
 <script>
 
-    function power(otherPrams) {
-        value = fetch('/power', otherPrams)
-            .then(data => { return data.json() })
-            .then(res => { return res })
-            .catch(error => console.log(error))
-        return value
-    }
 
-    // Adapted from stack overflow posts.
+    // Function that calculates the power based on the speed value taken in by the user
     async function calculateTurbinePower() {
         var speed = document.getElementById("speed").value
         document.getElementById('power').value = "Please wait...";
 
-        const otherPrams = {
-            body: JSON.stringify({ speed: speed }),
-            method: "POST"
-        }
-        document.getElementById('power').value = await power(otherPrams);
-        console.log("Power Level of Wind Turbine " + await power(otherPrams))
+        document.getElementById('power').value = await power(speed);
     }
+
+    // Function that retrieves the power value from the model when invoked by calculateTurbinePower
+    function power(windSpeed) {
+        var headers = new Headers();
+
+        headers.append('Accept', 'application/json'); // This one is enough for GET requests
+        headers.append('Content-Type', 'application/json'); // This one sends body
+
+        return fetch('/power', {
+            method: 'POST',
+            mode: 'same-origin',
+            credentials: 'include',
+            redirect: 'follow',
+            headers: headers,
+            body: JSON.stringify({
+                speed: windSpeed
+            }),
+        }).then(resp => {
+            return resp;
+        }).catch(err => {
+            return err;
+        })
+    }
+
 
 </script>
 

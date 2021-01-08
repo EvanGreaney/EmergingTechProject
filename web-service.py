@@ -1,18 +1,16 @@
-import numpy as np
 import tensorflow as tf
-import pandas as pd
-import matplotlib.pyplot as plt
 from tensorflow import keras
-from tensorflow.keras import layers
-from sklearn.model_selection import train_test_split
 import json
-from flask import Flask, jsonify,request
+from flask import Flask, request
 app = Flask(__name__)
+
 
 @app.route('/')
 def runner():
     return app.send_static_file('home.html')
 
+# uses the speed value given and based off the model takes power value from it and returns the power as a
+# String
 @app.route('/power', methods=['POST'])
 def parse_request():
     data = request.data
@@ -23,4 +21,3 @@ def parse_request():
     predictionOneDimen = prediction.flatten()
     print(predictionOneDimen[0])
     return str(predictionOneDimen[0])
-
