@@ -11,10 +11,6 @@ app = Flask(__name__)
 
 @app.route('/')
 def runner():
-    return app.send_static_file('index.html')
-
-@app.route('/home', methods=['GET'])
-def getHome():
     return app.send_static_file('home.html')
 
 @app.route('/power', methods=['POST'])
